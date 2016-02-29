@@ -9,6 +9,9 @@
 import UIKit
 
 class RefreshTableViewController: UITableViewController {
+    
+    var refreshLoadingView : UIView!
+    var falcon : UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +26,54 @@ class RefreshTableViewController: UITableViewController {
     // MARK: - Refresh 
     
     func setupRefreshControl() {
+        
+        // Initialize the refresh control
         self.refreshControl = UIRefreshControl()
-        self.refreshControl?.backgroundColor = UIColor.grayColor()
-        self.refreshControl?.tintColor = UIColor.whiteColor()
+        self.refreshControl?.tintColor = UIColor.clearColor()
+        
+        // Initialize the background view
+        self.refreshLoadingView = UIView(frame: self.refreshControl!.bounds)
+        self.refreshLoadingView.backgroundColor = UIColor.blackColor()
+        
+        // Initialize the falcon image view
+        self.falcon = UIImageView(frame: CGRectMake(-20, (self.refreshControl?.bounds.height)! / 2.0 - 7, 20, 15))
+        self.falcon.image = UIImage(named: "falcon.png")
+        
+        // Add image view to the background view
+        self.refreshLoadingView.addSubview(self.falcon)
+        self.refreshLoadingView.clipsToBounds = true
+        
+        // Add background view to refresh control
+        self.refreshControl?.addSubview(self.refreshLoadingView)
+        self.refreshControl?.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
+    }
+    
+    func refresh(){
+        let endTime = dispatch_time(DISPATCH_TIME_NOW, Int64(5.0 * Double(NSEC_PER_SEC)));
+        dispatch_after(endTime, dispatch_get_main_queue()) { () -> Void in
+            self.refreshControl!.endRefreshing()
+        }
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.animateRefreshView()
+    }
+    
+    func animateRefreshView() {
+        UIView.animateWithDuration(
+            Double(1),
+            delay: Double(2),
+            options: UIViewAnimationOptions.CurveEaseOut,
+            animations: {
+                var frame = self.falcon.frame
+                frame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
+                self.falcon.frame = frame
+                self.falcon.transform = CGAffineTransformMakeScale(2, 2)
+            },
+            completion: { finished in
+        
+            }
+        )
     }
     
 
