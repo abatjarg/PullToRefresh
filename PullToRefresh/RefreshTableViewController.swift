@@ -107,17 +107,7 @@ class RefreshTableViewController: UITableViewController {
                 self.falcon.alpha = 1.0
             },
             completion: { finished in
-                UIView.animateWithDuration(
-                    Double(0.3),
-                    delay: Double(2),
-                    options: UIViewAnimationOptions.CurveEaseOut,
-                    animations: {
-                        self.falcon.alpha = 0
-                    },
-                    completion: { finished in
-                        
-                    }
-                )
+                
             }
         )
         
