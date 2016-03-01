@@ -60,18 +60,32 @@ class RefreshTableViewController: UITableViewController {
     }
     
     func animateRefreshView() {
+        
         UIView.animateWithDuration(
             Double(1),
             delay: Double(2),
             options: UIViewAnimationOptions.CurveEaseOut,
             animations: {
-                var frame = self.falcon.frame
-                frame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
-                self.falcon.frame = frame
-                self.falcon.transform = CGAffineTransformMakeScale(2, 2)
+                var falconFrame = self.falcon.frame
+                falconFrame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
+                self.falcon.frame = falconFrame
+                //self.falcon.transform = CGAffineTransformMakeScale(2, 2)
             },
             completion: { finished in
-        
+                UIView.animateWithDuration(
+                    Double(1),
+                    delay: Double(3),
+                    options: UIViewAnimationOptions.CurveEaseIn,
+                    animations: {
+                        var falconFrame = self.falcon.frame
+                        falconFrame.origin.x = (self.refreshControl?.bounds.width)! + 20
+                        self.falcon.frame = falconFrame
+                        //self.falcon.transform = CGAffineTransformMakeScale(1,1)
+                    },
+                    completion: { finished in
+                        
+                    }
+                )
             }
         )
     }
