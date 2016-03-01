@@ -36,8 +36,14 @@ class RefreshTableViewController: UITableViewController {
         self.refreshLoadingView.backgroundColor = UIColor.blackColor()
         
         // Initialize the falcon image view
-        self.falcon = UIImageView(frame: CGRectMake(-20, (self.refreshControl?.bounds.height)! / 2.0 - 7, 20, 15))
+        
+        //Set the ship left of the layout out of view
+        //self.falcon = UIImageView(frame: CGRectMake(-20, (self.refreshControl?.bounds.height)! / 2.0 - 7, 20, 15))
+        
+        //Set the ship in the middle of the view
+        self.falcon = UIImageView(frame: CGRectMake((self.refreshControl?.bounds.width)! / 2.0 - 25, (self.refreshControl?.bounds.height)! / 2.0 - 25, 60, 50))
         self.falcon.image = UIImage(named: "falcon.png")
+        self.falcon.alpha = 0
         
         // Add image view to the background view
         self.refreshLoadingView.addSubview(self.falcon)
@@ -61,26 +67,52 @@ class RefreshTableViewController: UITableViewController {
     
     func animateRefreshView() {
         
+// Animation to move the ship, commented out at the moment due to some issue in animation
+//
+//        UIView.animateWithDuration(
+//            Double(1),
+//            delay: Double(2),
+//            options: UIViewAnimationOptions.CurveEaseOut,
+//            animations: {
+//                var falconFrame = self.falcon.frame
+//                falconFrame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
+//                self.falcon.frame = falconFrame
+//                //self.falcon.transform = CGAffineTransformMakeScale(2, 2)
+//            },
+//            completion: { finished in
+//                UIView.animateWithDuration(
+//                    Double(1),
+//                    delay: Double(3),
+//                    options: UIViewAnimationOptions.CurveEaseIn,
+//                    animations: {
+//                        var falconFrame = self.falcon.frame
+//                        falconFrame.origin.x = (self.refreshControl?.bounds.width)! + 20
+//                        self.falcon.frame = falconFrame
+//                        //self.falcon.transform = CGAffineTransformMakeScale(1,1)
+//                    },
+//                    completion: { finished in
+//                        
+//                    }
+//                )
+//            }
+//        )
+        
+        // Fade in animation
+        
         UIView.animateWithDuration(
             Double(1),
-            delay: Double(2),
+            delay: Double(1),
             options: UIViewAnimationOptions.CurveEaseOut,
             animations: {
-                var falconFrame = self.falcon.frame
-                falconFrame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
-                self.falcon.frame = falconFrame
-                //self.falcon.transform = CGAffineTransformMakeScale(2, 2)
+                self.falcon.alpha = 1.0
             },
             completion: { finished in
                 UIView.animateWithDuration(
-                    Double(1),
-                    delay: Double(3),
-                    options: UIViewAnimationOptions.CurveEaseIn,
+                    Double(0.3),
+                    delay: Double(2),
+                    options: UIViewAnimationOptions.CurveEaseOut,
                     animations: {
-                        var falconFrame = self.falcon.frame
-                        falconFrame.origin.x = (self.refreshControl?.bounds.width)! + 20
-                        self.falcon.frame = falconFrame
-                        //self.falcon.transform = CGAffineTransformMakeScale(1,1)
+                        self.falcon.alpha = 0
                     },
                     completion: { finished in
                         
@@ -88,6 +120,7 @@ class RefreshTableViewController: UITableViewController {
                 )
             }
         )
+        
     }
     
 
