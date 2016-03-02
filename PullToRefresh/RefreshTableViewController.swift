@@ -52,6 +52,9 @@ class RefreshTableViewController: UITableViewController {
         // Add background view to refresh control
         self.refreshControl?.addSubview(self.refreshLoadingView)
         self.refreshControl?.addTarget(self, action: "refresh", forControlEvents: .ValueChanged)
+        
+        let centerConstraint = self.falcon.centerXAnchor.constraintEqualToAnchor(self.refreshLoadingView.centerXAnchor)
+        centerConstraint.active = true
     }
     
     func refresh(){
@@ -68,48 +71,52 @@ class RefreshTableViewController: UITableViewController {
     func animateRefreshView() {
         
 // Animation to move the ship, commented out at the moment due to some issue in animation
-//
-//        UIView.animateWithDuration(
-//            Double(1),
-//            delay: Double(2),
-//            options: UIViewAnimationOptions.CurveEaseOut,
-//            animations: {
-//                var falconFrame = self.falcon.frame
-//                falconFrame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
-//                self.falcon.frame = falconFrame
-//                //self.falcon.transform = CGAffineTransformMakeScale(2, 2)
-//            },
-//            completion: { finished in
-//                UIView.animateWithDuration(
-//                    Double(1),
-//                    delay: Double(3),
-//                    options: UIViewAnimationOptions.CurveEaseIn,
-//                    animations: {
-//                        var falconFrame = self.falcon.frame
-//                        falconFrame.origin.x = (self.refreshControl?.bounds.width)! + 20
-//                        self.falcon.frame = falconFrame
-//                        //self.falcon.transform = CGAffineTransformMakeScale(1,1)
-//                    },
-//                    completion: { finished in
-//                        
-//                    }
-//                )
-//            }
-//        )
-        
-        // Fade in animation
+
+        self.view.layoutIfNeeded()
         
         UIView.animateWithDuration(
             Double(1),
-            delay: Double(1),
+            delay: Double(2),
             options: UIViewAnimationOptions.CurveEaseOut,
             animations: {
-                self.falcon.alpha = 1.0
-            },
-            completion: { finished in
+                var falconFrame = self.falcon.frame
+                falconFrame.origin.x = (self.refreshControl?.bounds.width)! / 2.0 - 20
+                self.falcon.frame = falconFrame
+                //self.falcon.transform = CGAffineTransformMakeScale(2, 2)
                 
+                self.view.layoutIfNeeded()
+            },
+            completion: { _ in
+                UIView.animateWithDuration(
+                    Double(1),
+                    delay: Double(3),
+                    options: UIViewAnimationOptions.CurveEaseIn,
+                    animations: {
+                        var falconFrame = self.falcon.frame
+                        falconFrame.origin.x = (self.refreshControl?.bounds.width)! + 20
+                        self.falcon.frame = falconFrame
+                        //self.falcon.transform = CGAffineTransformMakeScale(1,1)
+                    },
+                    completion: { finished in
+                        
+                    }
+                )
             }
         )
+        
+        // Fade in animation
+        
+//        UIView.animateWithDuration(
+//            Double(1),
+//            delay: Double(1),
+//            options: UIViewAnimationOptions.CurveEaseOut,
+//            animations: {
+//                self.falcon.alpha = 1.0
+//            },
+//            completion: { finished in
+//                
+//            }
+//        )
         
     }
     
